@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            color: rgb(0, 0, 0)fff;
+            padding: 0;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #ffffff;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            padding: 10px;
+        }
+
+        .navbar a:hover {
+            border-radius: 10px;
+            background-color: #f1f1f1;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            border: 1px solid #ffffff;
+            border-bottom: none;
+            background-color: #ffffff;
+            color: #000000;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .tab.active {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            border-radius: 5px 5px 0 0;
+        }
+
+        .tab-content {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ffffff;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .metrics {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+
+        .metric {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 30%;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .metric h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #000000;
+        }
+
+        .metric p {
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+
+        #announcements-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .announcement {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .announcement img {
+            max-width: 150px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .announcement h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #000000;
+        }
+
+        .announcement p {
+            margin: 5px 0;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .buttons button {
+            background-color: #007BFF;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: #000000;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .buttons button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .buttons button:active {
+            transform: scale(1);
+        }
+
+        #edit-content, #edit-name, #edit-contact, #edit-title{
+            max-width: 580px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: #007BFF;
+        }
+
+        .modal-content label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .modal-content input, .modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .modal-content button {
+            background-color: #007BFF;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .modal-content button:hover {
+            background-color: #0056b3;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .metrics {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .metric {
+                width: 80%;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .buttons {
+                flex-direction: column;
+                gap: 5px;
+                position: static;
+                margin-top: 10px;
+            }
+
+            .announcement {
+                padding: 15px;
+            }
+
+            .modal-content {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="#dashboard" onclick="showTab('dashboard')">Dashboard</a>
+        <a href="#announcements" onclick="showTab('announcements')">Announcements</a>
+        <a href="#users" onclick="showTab('users')">Users</a>
+        <a href="#settings" onclick="showTab('settings')">Settings</a>
+    </div>
+
+    <h1>Admin Panel</h1>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('dashboard')">Dashboard</div>
+        <div class="tab" onclick="showTab('announcements')">Announcements</div>
+        <div class="tab" onclick="showTab('users')">Users</div>
+        <div class="tab" onclick="showTab('settings')">Settings</div>
+    </div>
+
+    <!-- Tab Contents -->
+    <div id="dashboard" class="tab-content">
+        <h2>Dashboard</h2>
+        <div class="metrics">
+            <div class="metric">
+                <h2>Total Announcements</h2>
+                <p id="total-announcements">0</p>
+            </div>
+            <div class="metric">
+                <h2>Active Users</h2>
+                <p id="active-users">0</p>
+            </div>
+            <div class="metric">
+                <h2>Deleted Announcements</h2>
+                <p id="deleted-announcements">0</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="announcements" class="tab-content" style="display: none;">
+        <h2>Announcements</h2>
+        <div id="announcements-list"></div>
+    </div>
+
+    <div id="users" class="tab-content" style="display: none;">
+        <h2>Users</h2>
+        <!-- User metrics or details can go here -->
+    </div>
+
+    <div id="settings" class="tab-content" style="display: none;">
+        <h2>Settings</h2>
+        <!-- Settings options can go here -->
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('edit-modal')">&times;</span>
+            <h2>Edit Announcement</h2>
+            <form id="edit-form">
+                <label for="edit-title">Title</label>
+                <input type="text" id="edit-title" name="title" required>
+
+                <label for="edit-content">Content</label>
+                <textarea id="edit-content" name="content" rows="4" required></textarea>
+
+                <label for="edit-name">Name</label>
+                <input type="text" id="edit-name" name="name">
+
+                <label for="edit-contact">Contact</label>
+                <input type="text" id="edit-contact" name="contact">
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('delete-modal')">&times;</span>
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to delete this announcement?</p>
+            <button id="confirm-delete">Delete</button>
+            <button onclick="closeModal('delete-modal')">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        let currentAnnouncementId = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchAnnouncements();
+            fetchMetrics();
+
+            function fetchAnnouncements() {
+                fetch('http://127.0.0.1:5000/announcements')
+                    .then(response => response.json())
+                    .then(data => {
+                        const announcementsList = document.getElementById('announcements-list');
+                        announcementsList.innerHTML = '';
+
+                        data.forEach(announcement => {
+                            const announcementElement = document.createElement('div');
+                            announcementElement.className = 'announcement';
+                            announcementElement.innerHTML = `
+                                <h2>${announcement.title}</h2>
+                                <p>${announcement.content}</p>
+                                <p><strong>Name:</strong> ${announcement.name || 'Not provided'}</p>
+                                <p><strong>Contact:</strong> ${announcement.contact || 'Not provided'}</p>
+                                ${announcement.image ? `<img src="${announcement.image}" alt="Image">` : ''}
+                                <div class="buttons">
+                                    <button onclick="openEditModal(${announcement.id})">Edit</button>
+                                    <button onclick="openDeleteModal(${announcement.id})">Delete</button>
+                                </div>
+                            `;
+                            announcementsList.appendChild(announcementElement);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching announcements:', error);
+                    });
+            }
+
+            function fetchMetrics() {
+                fetch('http://127.0.0.1:5000/metrics')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('total-announcements').textContent = data.totalAnnouncements;
+                        document.getElementById('active-users').textContent = data.activeUsers;
+                        document.getElementById('deleted-announcements').textContent = data.deletedAnnouncements;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching metrics:', error);
+                    });
+            }
+
+            window.openEditModal = function(id) {
+                currentAnnouncementId = id;
+                fetch(`http://127.0.0.1:5000/announcements/${id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('edit-title').value = data.title;
+                        document.getElementById('edit-content').value = data.content;
+                        document.getElementById('edit-name').value = data.name || '';
+                        document.getElementById('edit-contact').value = data.contact || '';
+                        document.getElementById('edit-modal').style.display = 'flex';
+                    })
+                    .catch(error => {
+                        console.error('Error fetching announcement details:', error);
+                    });
+            };
+
+            window.openDeleteModal = function(id) {
+                currentAnnouncementId = id;
+                document.getElementById('delete-modal').style.display = 'flex';
+            };
+
+            window.closeModal = function(modalId) {
+                document.getElementById(modalId).style.display = 'none';
+            };
+
+            document.getElementById('edit-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+                fetch(`http://127.0.0.1:5000/announcements/${currentAnnouncementId}`, {
+                    method: 'PUT',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Announcement updated successfully');
+                    fetchAnnouncements();
+                    closeModal('edit-modal');
+                })
+                .catch(error => {
+                    console.error('Error updating announcement:', error);
+                });
+            });
+
+            document.getElementById('confirm-delete').addEventListener('click', function() {
+                fetch(`http://127.0.0.1:5000/announcements/${currentAnnouncementId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Announcement deleted successfully');
+                    fetchAnnouncements();
+                    closeModal('delete-modal');
+                })
+                .catch(error => {
+                    console.error('Error deleting announcement:', error);
+                });
+            });
+        });
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+
+            document.querySelector(`.tab[onclick*="${tabId}"]`).classList.add('active');
+            document.getElementById(tabId).style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить объявление</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Добавить объявление</h1>
+    </header>
+    <main>
+        <form id="announcement-form" enctype="multipart/form-data">
+            <label for="title">Заголовок:</label>
+            <input type="text" id="title" name="title" required>
+            
+            <label for="content">Текст объявления:</label>
+            <textarea id="content" name="content" required></textarea>
+            
+            <label for="name">Имя (опционально):</label>
+            <input type="text" id="name" name="name">
+            
+            <label for="contact">Контакт (опционально):</label>
+            <input type="text" id="contact" name="contact" placeholder="Телеграмм, Номер телефона, Адрес">
+            
+            <label for="image">Изображение (опционально):</label>
+            <input type="file" id="image" name="image">
+            
+            <button type="submit">Сохранить</button>
+        </form>
+    </main>
+    <script src="scripts.js"></script>
+</body>
+</html>

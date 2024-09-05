@@ -1,0 +1,149 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1b1b1b;
+}
+
+header {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+#announcements-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.announcement {
+    background-color: #202020;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    width: calc(33% - 20px); /* 3 items per row */
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+}
+
+.announcement:hover {
+    transform: scale(1.03);
+}
+
+.announcement img {
+    width: 100%;
+    height: auto;
+}
+
+.announcement-content {
+    padding: 15px;
+}
+
+.announcement h2 {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.announcement p {
+    margin: 10px 0;
+    color: #555;
+}
+
+.announcement strong {
+    color: #333;
+}
+
+form {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+form button:hover {
+    background-color: #555;
+}
+
+/* Стиль для каждого блока объявления */
+.announcement {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+}
+
+.announcement:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.announcement img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.announcement h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+}
+
+.announcement p {
+    margin: 0.5rem 0;
+}
+
+/* Стили для страницы подробностей объявления */
+#announcement-details {
+    max-width: 800px;
+    margin: auto;
+    padding: 2rem;
+}
+
+#announcement-details img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
