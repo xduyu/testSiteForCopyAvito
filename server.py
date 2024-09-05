@@ -4,7 +4,7 @@ import json
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 DATA_FILE = 'announcements.json'
 BLOCKED_IPS_FILE = 'blocked_ips.json'
@@ -15,7 +15,7 @@ if not os.path.exists('static'):
 
 @app.route('/supersecretdomainfortestDHSACVjdafcsaasdasdajdasdasjdasdasjdasdasdijjasdasdjlaksdljaskdjaskd')
 def admin_panel():
-    return send_from_directory('', './supersecretdomainfortestDHSACVjdafcsaasdasdajdasdasjdasdasjdasdasdijjasdasdjlaksdljaskdjaskd.html')
+    return send_from_directory('', 'supersecretdomainfortestDHSACVjdafcsaasdasdajdasdasjdasdasjdasdasdijjasdasdjlaksdljaskdjaskd.html')
 
 @app.route('/announcements', methods=['POST'])
 def add_announcement():
@@ -33,16 +33,15 @@ def add_announcement():
         if not title or not content:
             return jsonify({"error": "Title and content are required"}), 400
 
+        announcements = []
         if os.path.exists(DATA_FILE):
             with open(DATA_FILE, 'r') as file:
                 announcements = json.load(file)
-        else:
-            announcements = []
 
         new_id = max([ann['id'] for ann in announcements], default=0) + 1
         image_path = None
         if image:
-            image_filename = f"image_{new_id}.jpg"  # Имя файла можно генерировать по-другому
+            image_filename = f"image_{new_id}.jpg"
             image_path = os.path.join('static', image_filename)
             image.save(image_path)
 
@@ -186,4 +185,4 @@ def is_ip_blocked(ip_address):
     return ip_address in blocked_ips
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')  # Run on all network interfaces
