@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const id = params.get('id');
 
     if (id) {
-        fetch(`http://127.0.0.1:5000/announcements/${id}`)
+        fetch(`http://127.0.0.1:5500/announcements/${id}`)
             .then(response => response.json())
             .then(data => {
                 const detailDiv = document.getElementById('announcement-detail');
