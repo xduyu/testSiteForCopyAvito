@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('http://127.0.0.1:5000/announcements')
+    fetch('http://127.0.0.1:5500/announcements')
         .then(response => response.json())
         .then(data => {
             const announcementsList = document.getElementById('announcements-list');
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (image) formData.append('image', image);
 
             try {
-                const response = await fetch('http://127.0.0.1:5000/announcements', {
+                const response = await fetch('http://127.0.0.1:5500/announcements', {
                     method: 'POST',
                     body: formData
                 });
